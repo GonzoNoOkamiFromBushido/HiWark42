@@ -24,16 +24,20 @@ public:
 		USpringArmComponent* SpringArm;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 		USceneComponent* SceneComp;
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Move params")
+		float speed = 1;
+
+	void MoveForward(float AxisValue);
+	void RotateRight(float AxisValue);
 	
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	float CurrentMoveForward;
+	float CurrentRotRight;
 
 };
