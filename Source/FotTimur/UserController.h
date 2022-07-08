@@ -22,4 +22,5 @@ private:
 		AUser* User;
 	void MoveForward(float AxisValue);
 	void RotateRigt(float AxisValue);
+	void RotateUp(float AxisValue);
 };

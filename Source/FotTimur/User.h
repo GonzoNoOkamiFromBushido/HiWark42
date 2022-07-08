@@ -26,9 +26,12 @@ public:
 		USceneComponent* SceneComp;
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Move params")
 		float speed = 1;
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Move params")
+		float RotSpeed = 1;
 
 	void MoveForward(float AxisValue);
 	void RotateRight(float AxisValue);
+	void RotateUp(float AxisValue);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -39,5 +42,6 @@ public:
 	
 	float CurrentMoveForward;
 	float CurrentRotRight;
+	float CurrentRotUp;
 
 };

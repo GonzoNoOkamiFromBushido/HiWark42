@@ -14,7 +14,8 @@ void AUserController::SetupInputComponent()
 	Super::SetupInputComponent();
 
 	InputComponent->BindAxis("MoveForward", this, &AUserController::MoveForward);
-	InputComponent->BindAxis("RotRight", this, &AUserController::RotateRigt);
+	InputComponent->BindAxis("MouseX", this, &AUserController::RotateRigt);
+	InputComponent->BindAxis("MouseY", this, &AUserController::RotateUp);
 }
 
 void AUserController::Tick(float DeltaTime)
@@ -32,4 +33,10 @@ void AUserController::RotateRigt(float AxisValue)
 {
 	if (User)
 		User->RotateRight(AxisValue);
+}
+
+void AUserController::RotateUp(float AxisValue)
+{
+	if (User)
+		User->RotateUp(AxisValue);
 }

@@ -1,5 +1,6 @@
 
 #include "User.h"
+#include "Kismet/KismetStringLibrary.h"
 
 AUser::AUser()
 {
@@ -14,6 +15,7 @@ AUser::AUser()
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring arm"));
 	SpringArm->SetupAttachment(Body);
+	SpringArm->bDoCollisionTest = false;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
@@ -30,6 +32,11 @@ void AUser::RotateRight(float AxisValue)
 	CurrentRotRight = AxisValue;
 }
 
+void AUser::RotateUp(float AxisValue)
+{
+	CurrentRotUp = AxisValue;
+}
+
 void AUser::BeginPlay()
 {
 	Super::BeginPlay();
@@ -40,8 +47,16 @@ void AUser::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FVector OldPos = Body->GetComponentLocation();
-	FVector FNextPos = OldPos + Body->GetForwardVector() * speed * CurrentMoveForward;
-	Body->SetWorldLocation(FNextPos);
+	FVector NextPos = OldPos + Body->GetForwardVector() * speed * CurrentMoveForward;
+	Body->SetWorldLocation(NextPos);
+
+	FRotator OldRot = SpringArm->GetComponentRotation();
+	float RotY = OldRot.Pitch + RotSpeed * CurrentRotUp;
+	SpringArm->SetWorldRotation(FRotator(RotY, OldRot.Yaw, OldRot.Roll));
+
+	FRotator OldRotForBody = Body->GetComponentRotation();
+	float RotZforBody = OldRotForBody.Yaw + RotSpeed * CurrentRotRight;
+	Body->SetRelativeRotation(FRotator(OldRotForBody.Pitch, RotZforBody, OldRotForBody.Roll));
 }
 
 void AUser::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
